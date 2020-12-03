@@ -1,8 +1,19 @@
 package core.basesyntax;
 
+import core.basesyntax.exception.UserNotFoundException;
+
 public class UserService {
 
-    public int getUserScore(String[] records, String email) {
-        return 0;
+    public int getUserScore(String[] records, String email) throws UserNotFoundException {
+        if (records == null || records.length == 0) {
+            throw new UserNotFoundException("User with given email doesn't exist");
+        }
+        for (String record : records) {
+            String[] parts = record.split(":");
+            if ((parts.length == 2) && parts[0].equals(email)) {
+                return Integer.parseInt(parts[1]);
+            }
+        }
+        throw new UserNotFoundException("User with given email doesn't exist");
     }
 }
